@@ -71,9 +71,9 @@ def slab_transmission(Sig_s,Sig_a,thickness,N,isotropic=False, implicit_capture 
             else:
                 #get distance to collision
                 l = -np.log(1-np.random.random(1))/Sig_t
-            #make sure that l is not too large
+            #make sure that l is not too large. If it is, move it to the edge.
             if (mu > 0):
-                l = np.min([l,(3-x)/mu]) 
+                l = np.min([l,(thickness-x)/mu]) 
             else:
                 l = np.min([l,-x/mu])
             #move particle
@@ -83,7 +83,8 @@ def slab_transmission(Sig_s,Sig_a,thickness,N,isotropic=False, implicit_capture 
                     print(l,x,mu)
                 assert(l>=0)
                 weight *= np.exp(-l*Sig_a)
-            #still in the slab?
+            #still in the slab? 
+            #It should be either at the edge of the slab on the right, or have a negative x value
             if (np.abs(x-thickness) < 1.0e-14):
                 transmission += weight
                 alive = 0

@@ -527,3 +527,5 @@ def split(neutron, wd):
         new_neutrons[i,:] = neutron.copy()
     return new_neutrons
         
+def expfiss(x):
+    return 0.453*math.exp(-1.036*x)*math.sinh(math.sqrt(2.29*x))
